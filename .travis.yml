@@ -13,7 +13,8 @@ addons:
     - squashfs-tools
     - bison
   artifacts:
-    working_dir: build
+    paths:
+    - ./build/3scale
     target_paths:
     - /3scale/3scale_toolbox/ruby-packer/$TRAVIS_OS_NAME/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}
 cache: bundler
