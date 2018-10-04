@@ -1,14 +1,27 @@
 language: ruby
+os:
+  - linux
+  - osx
+addons:
+  homebrew:
+    packages:
+      - squashfs-tools
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - squashfs-tools
+      - bison
 cache: bundler
 before_install:
-- gem install bundler -v 1.15.1
+  - gem install bundler -v 1.15.1
 rvm:
-- 2.4.1
-- 2.3.1
-- 2.2.5
-- 2.1.9
+  - 2.4.0
+install:
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then curl -L http://enclose.io/rubyc/rubyc-darwin-x64.gz | gunzip > rubyc && chmod +x rubyc; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then curl -L http://enclose.io/rubyc/rubyc-linux-x64.gz | gunzip > rubyc && chmod +x rubyc; fi
+before_script:
+  - mksquashfs -version
+  - ./rubyc -v
 script:
-  - bundle exec rake spec:all
-  - bundle exec 3scale help
-  - bundle exec 3scale help copy
-  - bundle exec 3scale help import
+  - ./rubyc --output 3scale exe/3scale
