@@ -12,6 +12,10 @@ addons:
     packages:
     - squashfs-tools
     - bison
+  artifacts:
+    working_dir: build
+    target_paths:
+    - /3scale/3scale_toolbox/ruby-packer/$TRAVIS_OS_NAME/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}
 cache: bundler
 before_install:
 - gem install bundler -v 1.15.1
@@ -27,12 +31,3 @@ before_script:
 - "./rubyc -v"
 script:
 - "mkdir build && ./rubyc --output build/3scale exe/3scale"
-deploy:
-  provider: releases
-  api_key:
-    secure: WDlg7Vpx3ZXtzPbI80BSFaHzB4V1zA/aPNf5EzBsIxxzseKmFbTmC7hJbvjoBBRmoVvf/CHuB4ojZepzqzR81gL54GO2Yp3CfSwZ25uH5LOiXxY+1Qr1Q8k3fouxiWdyJV8M+lGger7a64N6VkyNe/qioi+3imDbwilGEb2D2cksFw7Uk6gNGOqFh7RxfZygqbMePrX4S+bSN4IInEeC1PoAv/NndIvQQ1y6aqboJtE1ZGBrrf/NDZdEofJ9/7eDDthmxofxDIRHh/xHkUz8Qi7UBoE0lYEFqkHKHpgfEoxVGkW1mV6vYBmK+wf42JprFtfywjJwcsUJsM6TyC4d+3aNgh+iMnpQgd6ODOm/Bvbj9Mi+2G9A2AIzonI/Rp1/av1NkDBZp1UdP/Ozo/krfiPmxquYB1prrqQ9XU/MQ193yMQodBGTJYJgbxzsg59RQGyfs/BolI0QUJjTtPE7hjwX0M75WtJ9y/tn41BZwDBAOyTZzev6V9Aev0tVlezBHjtgkI5DaMuRZaQda11I6p8nfhcRrsgnYtGxqqFbn1hsoV82MVmyUgBhA+4Uowekp/t1coCpSEB7jUF0ENQ1OLtluN2AMhig8xjI/Cm91zhNARZhMYhhI8tAB8vTtsAHbnEtgiHJ0C5O+Q0tzXDKPt3vkFefhi/KKgbnOmyG2Vo=
-  file: build/*
-  skip_cleanup: true
-  on:
-    repo: 3scale/3scale_toolbox
-    branch: packaging-osx-test
