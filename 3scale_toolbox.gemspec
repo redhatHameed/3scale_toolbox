@@ -24,6 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.7'
   spec.required_ruby_version = '>= 2.1'
 
-  spec.add_dependency '3scale-api', '~> 0.1'
   spec.add_dependency 'cri', '~> 2.10'
 end
