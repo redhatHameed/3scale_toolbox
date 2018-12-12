@@ -4,6 +4,7 @@ require '3scale_toolbox/commands/copy_command'
 require '3scale_toolbox/commands/import_command'
 require '3scale_toolbox/commands/update_command'
 require '3scale_toolbox/commands/remote_command'
+require '3scale_toolbox/commands/service_list_command'
 
 module ThreeScaleToolbox
   module Commands
@@ -12,7 +13,8 @@ module ThreeScaleToolbox
       ThreeScaleToolbox::Commands::CopyCommand,
       ThreeScaleToolbox::Commands::ImportCommand,
       ThreeScaleToolbox::Commands::UpdateCommand,
-      ThreeScaleToolbox::Commands::RemoteCommand::RemoteCommand
+      ThreeScaleToolbox::Commands::RemoteCommand::RemoteCommand,
+      ThreeScaleToolbox::Commands::ServiceListCommand
     ].freeze
   end
 end
