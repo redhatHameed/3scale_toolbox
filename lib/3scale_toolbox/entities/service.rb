@@ -9,10 +9,10 @@ module ThreeScaleToolbox
       public_constant :VALID_PARAMS
 
       class << self
-        def create(remote:, service:, system_name:)
+        def create(remote:, service_params:)
           svc_obj = create_service(
             remote: remote,
-            service: copy_service_params(service, system_name)
+            service: filtered_service_params(service_params)
           )
           if (errors = svc_obj['errors'])
             raise ThreeScaleToolbox::Error, "Service has not been saved. Errors: #{errors}" \
@@ -52,11 +52,8 @@ module ThreeScaleToolbox
           svc_obj
         end
 
-        def copy_service_params(original, system_name)
-          service_params = Helper.filter_params(VALID_PARAMS, original)
-          service_params.tap do |hash|
-            hash['system_name'] = system_name if system_name
-          end
+        def filtered_service_params(original_params)
+          Helper.filter_params(VALID_PARAMS, original_params)
         end
       end
 

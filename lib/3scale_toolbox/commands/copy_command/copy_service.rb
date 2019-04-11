@@ -26,7 +26,9 @@ module ThreeScaleToolbox
 
           source_service = Entities::Service.new(id: arguments[:service_id],
                                                  remote: threescale_client(source))
-          target_service = create_new_service(source_service.show_service, destination)
+          dest_service_params = source_service.show_service
+          dest_service_params["system_name"] = options[:target_system_name] if !options[:target_system_name].nil?
+          target_service = create_new_service(dest_service_params, destination)
           puts "new service id #{target_service.id}"
           context = create_context(source_service, target_service)
           tasks = [
@@ -59,8 +61,7 @@ module ThreeScaleToolbox
 
         def create_new_service(service, destination)
           Entities::Service.create(remote: threescale_client(destination),
-                                   service: service,
-                                   system_name: options[:target_system_name] || service['system_name'])
+                                   service_params: service)
         end
       end
     end

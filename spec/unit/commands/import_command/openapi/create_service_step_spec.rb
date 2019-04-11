@@ -36,7 +36,8 @@ RSpec.describe ThreeScaleToolbox::Commands::ImportCommand::OpenAPI::CreateServic
         {
           'name' => title,
           'description' => description,
-          'backend_version' => 'oidc'
+          'backend_version' => 'oidc',
+          'system_name' => openapi_context[:target_system_name],
         }
       end
 

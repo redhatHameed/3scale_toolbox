@@ -11,8 +11,7 @@ module ThreeScaleToolbox
           def call
             # Create service and update context
             self.service = Entities::Service.create(remote: threescale_client,
-                                                    service: service_settings,
-                                                    system_name: service_system_name)
+                                                    service_params: service_settings)
             puts "Created service id: #{service.id}, name: #{service_name}"
           rescue ThreeScaleToolbox::Error => e
             raise unless e.message =~ /"system_name"=>\["has already been taken"\]/
@@ -38,6 +37,7 @@ module ThreeScaleToolbox
               svc['name'] = service_name
               svc['description'] = service_description
               svc['backend_version'] = backend_version
+              svc['system_name'] = service_system_name
             end
           end
 
