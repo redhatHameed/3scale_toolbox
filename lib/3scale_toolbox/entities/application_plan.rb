@@ -91,7 +91,21 @@ module ThreeScaleToolbox
       end
 
       def limits
-        remote.list_application_plan_limits id
+        plan_limits = remote.list_application_plan_limits id
+        if plan_limits.respond_to?(:has_key?) && (errors = plan_limits['errors'])
+          raise ThreeScaleToolbox::Error, "Limits per application plan not read. Errors: #{errors}"
+        end
+
+        plan_limits
+      end
+
+      def metric_limits(metric_id)
+        # remote.list_metric_limits(plan_id, metric_id) returns all limits for a given metric,
+        # without filtering by app plan
+        # Already reported. https://issues.jboss.org/browse/THREESCALE-2486
+        # Meanwhile, the strategy will be to get all metrics from a given plan
+        # and filter by metric_id
+        limits.select { |limit| limit['metric_id'] == metric_id }
       end
 
       def create_limit(metric_id, limit_attrs)
@@ -101,6 +115,19 @@ module ThreeScaleToolbox
         end
 
         limit
+      end
+
+      def update_limit(metric_id, limit_id, limit_attrs)
+        limit = remote.update_application_plan_limit id, metric_id, limit_id, limit_attrs
+        if (errors = limit['errors'])
+          raise ThreeScaleToolbox::Error, "Limit #{limit_id} has not been updated. Errors: #{errors}"
+        end
+
+        limit
+      end
+
+      def delete_limit(metric_id, limit_id)
+        remote.delete_application_plan_limit id, metric_id, limit_id
       end
 
       def update_limit(metric_id, limit_id, limit_attrs)

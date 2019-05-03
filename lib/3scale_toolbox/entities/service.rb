@@ -80,7 +80,12 @@ module ThreeScaleToolbox
       end
 
       def metrics
-        remote.list_metrics id
+        service_metrics = remote.list_metrics id
+        if service_metrics.respond_to?(:has_key?) && (errors = service_metrics['errors'])
+          raise ThreeScaleToolbox::Error, "Metrics per service not read. Errors: #{errors}"
+        end
+
+        service_metrics
       end
 
       def hits
@@ -96,8 +101,13 @@ module ThreeScaleToolbox
         remote.list_methods id, hits['id']
       end
 
-      def create_metric(metric)
-        remote.create_metric id, metric
+      def create_metric(metric_attrs)
+        metric = remote.create_metric id, metric_attrs
+        if (errors = metric['errors'])
+          raise ThreeScaleToolbox::Error, "Metric has not been created. Errors: #{errors}"
+        end
+
+        metric
       end
 
       def create_method(parent_metric_id, method)
@@ -105,7 +115,12 @@ module ThreeScaleToolbox
       end
 
       def plans
-        remote.list_service_application_plans id
+        service_plans = remote.list_service_application_plans id
+        if service_plans.respond_to?(:has_key?) && (errors = service_plans['errors'])
+          raise ThreeScaleToolbox::Error, "Plans per service not read. Errors: #{errors}"
+        end
+
+        service_plans
       end
 
       def mapping_rules

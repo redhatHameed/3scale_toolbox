@@ -166,13 +166,13 @@ RSpec.shared_context :copy_service_stubbed_external_http_client do
     ##
     # service creation calls
     expect(external_source_client).to receive(:post).with('/admin/api/services', anything).and_return(external_source_service)
-    expect(external_source_client).to receive(:post).exactly(3).times.with('/admin/api/services/1/metrics/1/methods', anything)
-    expect(external_source_client).to receive(:post).exactly(4).times.with('/admin/api/services/1/metrics', anything)
+    expect(external_source_client).to receive(:post).exactly(3).times.with('/admin/api/services/1/metrics/1/methods', anything).and_return({})
+    expect(external_source_client).to receive(:post).exactly(4).times.with('/admin/api/services/1/metrics', anything).and_return({})
     expect(external_source_client).to receive(:post).exactly(2).times.with('/admin/api/services/1/application_plans', anything).and_return(external_app_plan_01)
     expect(external_source_client).to receive(:post).exactly(8).times.with('/admin/api/application_plans/1/metrics/1/limits', anything).and_return({})
     expect(external_source_client).to receive(:post).exactly(2).times.with('/admin/api/services/1/proxy/mapping_rules', anything)
     expect(external_source_client).to receive(:post).with('/admin/api/application_plans/1/metrics/1/pricing_rules', anything).exactly(2).times.and_return({})
-    expect(external_source_client).to receive(:put).with('/admin/api/services/1/proxy/policies', anything)
+    expect(external_source_client).to receive(:put).with('/admin/api/services/1/proxy/policies', anything).and_return({})
     # activedocs
     allow(external_source_client).to receive(:get).with('/admin/api/active_docs').and_return(external_source_activedocs)
     allow(external_target_client).to receive(:get).with('/admin/api/active_docs').and_return(external_target_activedocs)

@@ -132,7 +132,7 @@ RSpec.describe ThreeScaleToolbox::Entities::Service do
 
     context '#create_metric' do
       it 'calls create_metric method' do
-        expect(remote).to receive(:create_metric).with(id, hits_metric)
+        expect(remote).to receive(:create_metric).with(id, hits_metric).and_return(hits_metric)
         subject.create_metric(hits_metric)
       end
     end
