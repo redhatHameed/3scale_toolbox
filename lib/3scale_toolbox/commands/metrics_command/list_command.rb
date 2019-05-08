@@ -33,8 +33,14 @@ module ThreeScaleToolbox
           end
 
           def print_data
-            service.metrics.each do |metric|
+            metrics.each do |metric|
               puts FIELDS_TO_SHOW.map { |field| metric.fetch(field, '(empty)') }.join("\t")
+            end
+          end
+
+          def metrics
+            ThreeScaleToolbox::Helper.array_difference(service.metrics, service.methods) do |metric, method|
+              ThreeScaleToolbox::Helper.compare_hashes(metric, method, %w[id])
             end
           end
 
